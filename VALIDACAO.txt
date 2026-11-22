@@ -1,0 +1,26 @@
+Validação em 22/11/2026
+
+APROVADOS
+- 6 testes automatizados: orçamentos 4–256 GiB/1–12 pools; reaplicação idempotente;
+  preservação de credenciais/PHP; ausência de reinstalação destrutiva; watchdog;
+  crack antes do primeiro início, backup e recusa de componentes divergentes;
+  detecção dos três Ubuntu e adaptação idempotente do Nginx/OpenSSL.
+- Dependências instaladas em contêineres reais Ubuntu 20.04, 22.04 e 24.04.
+- PHP 7.4 com ionCube e módulo XUI local carregado nas três versões.
+- Quatro configurações FPM, Nginx/RTMP, logrotate e autotestes do watchdog.
+- MariaDB 10.3/10.6/10.11: configuração e importação do SQL original, alterações
+  usadas pelo instalador nas tabelas settings/access_codes.
+- No 22.04/24.04: Nginx e RTMP iniciados; HTTP /nginx_status respondeu.
+- Dispatcher /health e sobrevivência após killall -u xui nas três versões.
+- PHP e usuário xui-queue conseguem compartilhar arquivos e socket FPM no 20.04.
+- Redis/KeyDB nativo: autenticação/PING no 20.04.
+- systemd-analyze verify das unidades/timers no 20.04.
+- Hashes dos componentes locais iguais aos do pacote anteriormente guardado.
+
+LIMITES
+Não foi executada uma instalação completa com boot via systemd e configuração
+final do painel em VM nova nas três distribuições. Carregar o módulo comprova
+compatibilidade do PHP, sem substituir a validação completa do painel instalado.
+Os testes anteriores da fila usaram oito streams sintéticos e backend real
+isolado, duas abas e recarga. A simulação de 200/300 itens verifica encadeamento;
+não é ensaio com 300 streams reais. Nenhum canal de produção foi movido.
